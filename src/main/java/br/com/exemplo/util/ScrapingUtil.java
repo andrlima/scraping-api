@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,13 +51,22 @@ public class ScrapingUtil {
 			
 			String title = document.title();
 			LOGGER.info("Titulo da página: {}", title); // Pegando o titulo da página.
-			
-			
+						
 			StatusPartida statusPartida = obtendoStatusPartida(document);
 			LOGGER.info("Estatus da partida: {} ", statusPartida);
 			
-			String tempoDaPartida = obtendoTempoDaPartida(document);
-			LOGGER.info("Tempo da partida: {}", tempoDaPartida);
+			// Verificar se a partida ainda não iniciou, se sim, entra no if
+			if(statusPartida != StatusPartida.PARTIDA_NAO_INICIADA) {
+				String tempoDaPartida = obtendoTempoDaPartida(document);
+				LOGGER.info("Tempo da partida: {}", tempoDaPartida);
+				
+			}
+			
+			String nomeDaEquipeCasa = recuperaNomeEquipeCasa(document);
+			LOGGER.info("Nome da equipe da casa: {}", nomeDaEquipeCasa);
+
+			String nomeDaEquipeVisitante = recuperaNomeEquipeVisistante(document);
+			LOGGER.info("Nome da equipe visitante: {}", nomeDaEquipeVisitante);
 			
 			
 		}
@@ -146,6 +156,21 @@ public class ScrapingUtil {
 		}
 		
 	}
+	
+	public String recuperaNomeEquipeCasa(Document document) {
+		Element elemento =  document.selectFirst("div[ class = imso_mh__first-tn-ed imso_mh__tnal-cont imso-tnol ]");
+		String nomeEquipe = elemento.select("span").text();
+		
+		return nomeEquipe;
+	}
+	
+	public String recuperaNomeEquipeVisistante(Document document) {
+		Element elemento = document.selectFirst("div[ class = imso_mh__second-tn-ed imso_mh__tnal-cont imso-tnol ]");
+		String nomeEquipeVisitante = elemento.select("span").text();
+		
+		return nomeEquipeVisitante;
+	}
+	
 
 }
 
