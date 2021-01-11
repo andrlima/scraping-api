@@ -45,6 +45,7 @@ public class ScrapingUtil {
 		// Importado do org.jsoup.nodes
 		Document document = null;
 		
+		// CHAMADA DE TODOS OS MÉTODOS
 		try {
 			
 			document = Jsoup.connect(utl).get();
@@ -68,6 +69,12 @@ public class ScrapingUtil {
 			String nomeDaEquipeVisitante = recuperaNomeEquipeVisistante(document);
 			LOGGER.info("Nome da equipe visitante: {}", nomeDaEquipeVisitante);
 			
+			
+			String urlLogoDaEquipeCasa = recuperaLogoDaEquipeCasa(document);
+			LOGGER.info("Url do logo da equipe da casa: {}", urlLogoDaEquipeCasa);
+			
+			String urlLogoDaEquipeVisitante = recuperaLogoDaEquipeVsisitante(document);
+			LOGGER.info("Url do logo da equipe da Visitante: {}", urlLogoDaEquipeVisitante);
 			
 		}
 		catch (IOException e) {
@@ -171,7 +178,21 @@ public class ScrapingUtil {
 		return nomeEquipeVisitante;
 	}
 	
-
+	
+	public String recuperaLogoDaEquipeCasa(Document document) {
+		Element elemento = document.selectFirst("div[ class = imso_mh__first-tn-ed imso_mh__tnal-cont imso-tnol ]");
+		String urlLogo = "https:" + elemento.select("img[ class = imso_btl__mh-logo ]").attr("src");
+		
+		return urlLogo;
+		
+	}
+	
+	public String recuperaLogoDaEquipeVsisitante(Document document) {
+		Element elemento = document.selectFirst("div[ class = imso_mh__second-tn-ed imso_mh__tnal-cont imso-tnol ]");
+		String urlLogoVisitante = "https:" + elemento.select("img[ class = imso_btl__mh-logo ]").attr("src");
+		
+		return urlLogoVisitante;
+	}
 }
 
 
