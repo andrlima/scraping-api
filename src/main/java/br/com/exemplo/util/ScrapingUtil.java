@@ -1,10 +1,13 @@
 package br.com.exemplo.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,20 +28,22 @@ public class ScrapingUtil {
 	private static final String QUERY2 = "fortaleza+e+grêmio"; // partida 09/01/2021
 	private static final String QUERY3 = "tigres+UANL+x+León&rlz"; // partida 09/01/2021
 	
-
+	private static final String CASA = "casa";
+	private static final String VISITANTE = "visitante";
+	
 	// informa para o google qual a linguagem que estamos buscando, também é um parâmtro.
 	private static final String COMPLEMENTO_URL_GOOGLE = "&hl=pt-BR"; 
 	
 	public static void main(String[] args) {
 		
-		String url = BASE_URL_GOOGLE + QUERY3 + COMPLEMENTO_URL_GOOGLE;
+		String url = BASE_URL_GOOGLE + QUERY + COMPLEMENTO_URL_GOOGLE;
 		ScrapingUtil scraping = new ScrapingUtil();
 		
 		scraping.obtendoInformacoesPartida(url);
 
 	}
 	
-	public PartidaGoogleDTO obtendoInformacoesPartida(String utl) {
+	public PartidaGoogleDTO obtendoInformacoesPartida(String url) {
 		
 		PartidaGoogleDTO partida = new PartidaGoogleDTO();
 		
@@ -48,7 +53,7 @@ public class ScrapingUtil {
 		// CHAMADA DE TODOS OS MÉTODOS
 		try {
 			
-			document = Jsoup.connect(utl).get();
+			document = Jsoup.connect(url).get();
 			
 			String title = document.title();
 			LOGGER.info("Titulo da página: {}", title); // Pegando o titulo da página.
@@ -65,7 +70,21 @@ public class ScrapingUtil {
 				LOGGER.info("Placar da equipe da casa: {}", placarDaEquipeCasa);
 				
 				Integer placarEquipeVisistante = recueprarPlacarDaEquipeVsisitante(document);
-				LOGGER.info("Placar da equipe da visistante: {}", placarEquipeVisistante);
+				LOGGER.info("Placar da equipe visistante: {}", placarEquipeVisistante);
+				
+				String golsDaEquipeCasa = recuperaGolsEquipeCasa(document);
+				LOGGER.info("Gols da casa : {}", golsDaEquipeCasa);
+				
+				String golsDaEquipeVisitante = recuperaGolsEquipeVisitante(document);
+				LOGGER.info("Gols dos Visitantes: {}", golsDaEquipeVisitante);
+				
+				//Placar dos pênaltis 
+				Integer placarEstendidoEquipeCasa = buscaPenalidades(document, CASA);
+				LOGGER.info("Placar estendido da equipe da casa: {}", placarEstendidoEquipeCasa);
+				
+				//Placar dos pênaltis 
+				Integer placarEstendidoEquipeVisitante = buscaPenalidades(document, VISITANTE);
+				LOGGER.info("Placar estendido da equipe visitante: {}", placarEstendidoEquipeVisitante);
 			}
 			
 			String nomeDaEquipeCasa = recuperaNomeEquipeCasa(document);
@@ -88,7 +107,6 @@ public class ScrapingUtil {
 			e.printStackTrace();
 			
 		}
-		
 		
 		return partida;
 	}
@@ -183,7 +201,6 @@ public class ScrapingUtil {
 		return nomeEquipeVisitante;
 	}
 	
-	
 	public String recuperaLogoDaEquipeCasa(Document document) {
 		Element elemento = document.selectFirst("div[ class = imso_mh__first-tn-ed imso_mh__tnal-cont imso-tnol ]");
 		String urlLogo = "https:" + elemento.select("img[ class = imso_btl__mh-logo ]").attr("src");
@@ -197,9 +214,8 @@ public class ScrapingUtil {
 		String urlLogoVisitante = "https:" + elemento.select("img[ class = imso_btl__mh-logo ]").attr("src");
 		
 		return urlLogoVisitante;
-		
-	}
 	
+	}
 	
 	// Por mais que o método seja um int, sempre que pegamos algos em paginas html, etc. Eles vem como String.
 	// Por isso é necessário converter de string para int.
@@ -207,17 +223,81 @@ public class ScrapingUtil {
 		String placarEquipe = document.selectFirst("div[ class = imso_mh__l-tm-sc imso_mh__scr-it imso-light-font ]").text();
 		
 		//Já está retornando convertido, irá devolver um int.
-		return Integer.valueOf(placarEquipe);
-		
+		return formataPlacarStringInteger(placarEquipe);
 
 	}
 	
 	public Integer recueprarPlacarDaEquipeVsisitante(Document document) {
 		String placarEquipeVisitante = document.selectFirst("div[ class = imso_mh__r-tm-sc imso_mh__scr-it imso-light-font ]").text();
-		
-		return Integer.valueOf(placarEquipeVisitante);
+		return formataPlacarStringInteger(placarEquipeVisitante);
 	}
 	
+	// Recupera todos os itens de uma div
+	public String recuperaGolsEquipeCasa(Document document) {
+		List<String> golsEquipeCasa = new ArrayList<>();
+		
+		Elements elementos = document.select("div[ class = imso_gs__tgs imso_gs__left-team ]").select("div[ class = imso_gs__gs-r ]");
+		
+		for(Element e : elementos) {
+			String infoGol = e.select("div[ class = imso_gs__gs-r ]").text();
+			golsEquipeCasa.add(infoGol);// é uma lisata, porém não iremos devolver uma lista no return.
+			
+		}
+		
+		//golsEquipeCasa.toString();
+		
+		// Vai pegar cada elemento dessa lista, juntar tudo em uma string separando  por virgura e espaço.
+		return String.join(", ", golsEquipeCasa);
+		
+	}
+	
+	// Recupera todos os itens de uma div, outro método com for.
+	public String recuperaGolsEquipeVisitante(Document document) {
+		List<String> golsEquipeVisitante = new ArrayList<>();
+		
+		Elements elementos = document.select("div[ class = imso_gs__tgs imso_gs__right-team ]").select("div[ class = imso_gs__gs-r ]");
+		
+		elementos.forEach(item -> {
+			String infoGol = item.select("div[ class = imso_gs__gs-r ]").text();
+			golsEquipeVisitante.add(infoGol);
+		});
+		
+		return String.join(", ", golsEquipeVisitante);
+	}
+	
+	public Integer buscaPenalidades(Document document, String tipoEquipe) {
+		boolean isPenalidades = document.select("div[ class = imso_mh_s__psn-sc ]").isEmpty();
+		
+		if(!isPenalidades) {
+			String penalidades = document.select("div[ class = imso_mh_s__psn-sc ]").text();
+			String penalidadesCompleta = penalidades.substring(0, 5).replace(" ", "");
+			String[] divisao = penalidadesCompleta.split("-");
+			
+			return tipoEquipe.equals(CASA) ? formataPlacarStringInteger(divisao[0]) : formataPlacarStringInteger(divisao[1]);
+		}
+		
+		// Esse return é o resultado que irá mostrar nos placar dos pênaltis.
+		return 0;
+		
+	}
+	
+	// Tratando possível erro de inializar com null
+	public Integer formataPlacarStringInteger(String placar) {
+		
+		Integer valor;
+		
+		try {
+			valor = Integer.parseInt(placar);
+		
+		}
+		catch(Exception e){
+			valor = 0;
+			
+		}
+		
+		return valor;
+		
+	}
 	
 }
 
