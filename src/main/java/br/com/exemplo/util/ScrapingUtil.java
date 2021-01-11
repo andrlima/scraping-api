@@ -56,11 +56,16 @@ public class ScrapingUtil {
 			StatusPartida statusPartida = obtendoStatusPartida(document);
 			LOGGER.info("Estatus da partida: {} ", statusPartida);
 			
-			// Verificar se a partida ainda não iniciou, se sim, entra no if
+			// Verificar se a partida ainda não iniciou, se iniciou, entra no if
 			if(statusPartida != StatusPartida.PARTIDA_NAO_INICIADA) {
 				String tempoDaPartida = obtendoTempoDaPartida(document);
 				LOGGER.info("Tempo da partida: {}", tempoDaPartida);
 				
+				Integer placarDaEquipeCasa = recueprarPlacarDaEquipeCasa(document);
+				LOGGER.info("Placar da equipe da casa: {}", placarDaEquipeCasa);
+				
+				Integer placarEquipeVisistante = recueprarPlacarDaEquipeVsisitante(document);
+				LOGGER.info("Placar da equipe da visistante: {}", placarEquipeVisistante);
 			}
 			
 			String nomeDaEquipeCasa = recuperaNomeEquipeCasa(document);
@@ -192,7 +197,28 @@ public class ScrapingUtil {
 		String urlLogoVisitante = "https:" + elemento.select("img[ class = imso_btl__mh-logo ]").attr("src");
 		
 		return urlLogoVisitante;
+		
 	}
+	
+	
+	// Por mais que o método seja um int, sempre que pegamos algos em paginas html, etc. Eles vem como String.
+	// Por isso é necessário converter de string para int.
+	public Integer recueprarPlacarDaEquipeCasa(Document document) {
+		String placarEquipe = document.selectFirst("div[ class = imso_mh__l-tm-sc imso_mh__scr-it imso-light-font ]").text();
+		
+		//Já está retornando convertido, irá devolver um int.
+		return Integer.valueOf(placarEquipe);
+		
+
+	}
+	
+	public Integer recueprarPlacarDaEquipeVsisitante(Document document) {
+		String placarEquipeVisitante = document.selectFirst("div[ class = imso_mh__r-tm-sc imso_mh__scr-it imso-light-font ]").text();
+		
+		return Integer.valueOf(placarEquipeVisitante);
+	}
+	
+	
 }
 
 
