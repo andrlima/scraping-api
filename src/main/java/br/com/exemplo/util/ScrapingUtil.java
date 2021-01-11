@@ -10,11 +10,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import br.com.exemplo.dto.PartidaGoogleDTO;
 
+//Importado do org.springframework.stereotype, para poder ser injetada no bot.
+@Service
 public class ScrapingUtil {
-	
 	
 	// Importado do org.slf4j
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScrapingUtil.class);
@@ -24,12 +26,6 @@ public class ScrapingUtil {
 	
 	private static final String DIV_PARTIDA_ANDAMENTO = "div[class=imso_mh__lv-m-stts-cont]";
 	private static final String DIV_PARTIDA_ENCERRADA = "span[class=imso_mh__ft-mtch imso-medium-font imso_mh__ft-mtchc]";
-	
-	// Query que queremos buscar, ou seja, o parâmetro.
-	// Varáveis para teste
-	private static final String QUERY = "palmeiras+x+corinthias+08/08/2020";
-	private static final String QUERY2 = "fortaleza+e+grêmio"; // partida 09/01/2021
-	private static final String QUERY3 = "tigres+UANL+x+León&rlz"; // partida 09/01/2021
 	
 	private static final String DIV_PLACAR_EQUIPE_CASA = "div[ class = imso_mh__l-tm-sc imso_mh__scr-it imso-light-font ]";
 	private static final String DIV_PLACAR_EQUIPE_VISITANTE = "div[ class = imso_mh__r-tm-sc imso_mh__scr-it imso-light-font ]";
@@ -54,15 +50,6 @@ public class ScrapingUtil {
 	// informa para o google qual a linguagem que estamos buscando, também é um parâmtro.
 	private static final String COMPLEMENTO_URL_GOOGLE = "&hl=pt-BR"; 
 	
-	public static void main(String[] args) {
-		
-		String url = BASE_URL_GOOGLE + QUERY + COMPLEMENTO_URL_GOOGLE;
-		ScrapingUtil scraping = new ScrapingUtil();
-		
-		scraping.obtendoInformacoesPartida(url);
-
-	}
-	
 	public PartidaGoogleDTO obtendoInformacoesPartida(String url) {
 		
 		PartidaGoogleDTO partida = new PartidaGoogleDTO();
@@ -79,45 +66,60 @@ public class ScrapingUtil {
 			LOGGER.info("Titulo da página: {}", title); // Pegando o titulo da página.
 						
 			StatusPartida statusPartida = obtendoStatusPartida(document);
+			partida.setStatusPartida(statusPartida.toString());
 			LOGGER.info("Estatus da partida: {} ", statusPartida);
 			
 			// Verificar se a partida ainda não iniciou, se iniciou, entra no if
 			if(statusPartida != StatusPartida.PARTIDA_NAO_INICIADA) {
 				String tempoDaPartida = obtendoTempoDaPartida(document);
+				partida.setTempoPartida(tempoDaPartida);
 				LOGGER.info("Tempo da partida: {}", tempoDaPartida);
 				
 				Integer placarDaEquipeCasa = recueprarPlacarDaEquipe(document, DIV_PLACAR_EQUIPE_CASA);
+				partida.setPlacarEquipeCasa(placarDaEquipeCasa);
 				LOGGER.info("Placar da equipe da casa: {}", placarDaEquipeCasa);
 				
 				Integer placarEquipeVisistante = recueprarPlacarDaEquipe(document, DIV_PLACAR_EQUIPE_VISITANTE);
+				partida.setPlacarEquipeVisitante(placarEquipeVisistante);
 				LOGGER.info("Placar da equipe visistante: {}", placarEquipeVisistante);
 				
 				String golsDaEquipeCasa = recuperaGolsEquipe(document, DIV_GOL_EQUIP_CASA);
+				partida.setGolsEquipeCasa(golsDaEquipeCasa);
 				LOGGER.info("Gols da casa : {}", golsDaEquipeCasa);
 				
 				String golsDaEquipeVisitante = recuperaGolsEquipe(document, DIV_GOL_EQUIP_VISITANTE);
+				partida.setGolsEquipeVisitante(golsDaEquipeVisitante);
 				LOGGER.info("Gols dos Visitantes: {}", golsDaEquipeVisitante);
 				
 				//Placar dos pênaltis 
 				Integer placarEstendidoEquipeCasa = buscaPenalidades(document, CASA);
+				partida.setPlacarEquipeCasa(placarEstendidoEquipeCasa);
 				LOGGER.info("Placar estendido da equipe da casa: {}", placarEstendidoEquipeCasa);
 				
 				//Placar dos pênaltis 
 				Integer placarEstendidoEquipeVisitante = buscaPenalidades(document, VISITANTE);
+				partida.setPlacarEquipeVisitante(placarEstendidoEquipeVisitante);
 				LOGGER.info("Placar estendido da equipe visitante: {}", placarEstendidoEquipeVisitante);
 			}
 			
-			String nomeDaEquipeCasa = recuperaNomeEquipe(document, DIV_DADOS_EQUIPE_CASA);
+			String nomeDaEquipeCasa = recuperaNomeDaEquipe(document, DIV_DADOS_EQUIPE_CASA);
+			partida.setNomeEquipeCasa(nomeDaEquipeCasa);
 			LOGGER.info("Nome da equipe da casa: {}", nomeDaEquipeCasa);
 
-			String nomeDaEquipeVisitante = recuperaNomeEquipe(document, DIV_DADOS_EQUIPE_VISITANTE);
+			String nomeDaEquipeVisitante = recuperaNomeDaEquipe(document, DIV_DADOS_EQUIPE_VISITANTE);
+			partida.setNomeEquipeVisitante(nomeDaEquipeVisitante);
 			LOGGER.info("Nome da equipe visitante: {}", nomeDaEquipeVisitante);
 			
 			String urlLogoDaEquipeCasa = recuperaLogoDaEquipe(document, DIV_DADOS_EQUIPE_CASA);
+			partida.setUrlLogoEquipeCasa(nomeDaEquipeCasa);
 			LOGGER.info("Url do logo da equipe da casa: {}", urlLogoDaEquipeCasa);
 			
 			String urlLogoDaEquipeVisitante = recuperaLogoDaEquipe(document, DIV_DADOS_EQUIPE_VISITANTE);
+			partida.setUrlLogoEquipeVisitante(urlLogoDaEquipeVisitante);
 			LOGGER.info("Url do logo da equipe da Visitante: {}", urlLogoDaEquipeVisitante);
+			
+			return partida;
+			
 			
 		}
 		catch (IOException e) {
@@ -127,7 +129,7 @@ public class ScrapingUtil {
 			
 		}
 		
-		return partida;
+		return null;
 	}
 	
 	
@@ -205,7 +207,7 @@ public class ScrapingUtil {
 		
 	}
 	
-	public String recuperaNomeEquipe(Document document, String itemHtml) {
+	public String recuperaNomeDaEquipe(Document document, String itemHtml) {
 		Element elemento =  document.selectFirst(itemHtml);
 		String nomeEquipe = elemento.select(SPAN).text();
 		
@@ -283,6 +285,23 @@ public class ScrapingUtil {
 		
 	}
 	
+	// Montando a utl de forma dinâmica 
+	public String montandoUrlGoogle(String nomeEquipeCasa, String nomeEquipeVisitante) {
+		
+		try {
+			String equipeCasa = nomeEquipeCasa.replace(" ", "+").replace("-", "+");
+			String equipeVisitante = nomeEquipeVisitante.replace(" ", "+").replace("-", "+");
+			
+			return BASE_URL_GOOGLE + equipeCasa + "+ X +" + equipeVisitante + COMPLEMENTO_URL_GOOGLE;
+		}
+		catch(Exception e) {
+			LOGGER.error("ERROR: {}", e.getMessage());
+			
+		}
+		
+		return null;
+		
+	}
 }
 
 
