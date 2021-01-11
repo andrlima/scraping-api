@@ -1,0 +1,14 @@
+Observações:
+
+1: Quando informado nomes errados, quando o jogo não existe ou quando montada a URL errada, retorna os seguinte erro:
+
+09:20:51.819 [main] INFO br.com.exemplo.util.ScrapingUtil - Titulo da página: A X B - Pesquisa Google
+09:20:51.832 [main] INFO br.com.exemplo.util.ScrapingUtil - Estatus da partida: PARTIDA_NAO_INICIADA 
+Exception in thread "main" java.lang.NullPointerException: Cannot invoke "org.jsoup.nodes.Element.select(String)" because "elemento" is null
+	at br.com.exemplo.util.ScrapingUtil.recuperaNomeDaEquipe(ScrapingUtil.java:212)
+	at br.com.exemplo.util.ScrapingUtil.obtendoInformacoesPartida(ScrapingUtil.java:112)
+	at br.com.exemplo.util.ScrapingUtil.main(ScrapingUtil.java:64)
+============================================================================================
+(ScrapingUtil.java:64):  scraping.obtendoInformacoesPartida(url);
+(ScrapingUtil.java:112): String nomeDaEquipeCasa = recuperaNomeDaEquipe(document, DIV_DADOS_EQUIPE_CASA);
+(ScrapingUtil.java:212): String nomeEquipe = elemento.select(SPAN).text();
