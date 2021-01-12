@@ -12,3 +12,52 @@ Exception in thread "main" java.lang.NullPointerException: Cannot invoke "org.js
 (ScrapingUtil.java:64):  scraping.obtendoInformacoesPartida(url);
 (ScrapingUtil.java:112): String nomeDaEquipeCasa = recuperaNomeDaEquipe(document, DIV_DADOS_EQUIPE_CASA);
 (ScrapingUtil.java:212): String nomeEquipe = elemento.select(SPAN).text();
+
+2: Na inicialização do Spring, não constou erro, porém o banco NÂO foi criar, pelo menos não mostrou na tela.
+- Rever aula 36 e 37
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.4.1)
+
+2021-01-11 19:59:56.189  INFO 7852 --- [  restartedMain] b.c.e.s.ScrapingApiApplication           : Starting ScrapingApiApplication using Java 15.0.1 on DESKTOP-KRC7OUC with PID 7852 (F:\Programação\Arquivos JAVA\workspace_scraping\scraping-api\target\classes started by Dispositivo in F:\Programação\Arquivos JAVA\workspace_scraping\scraping-api)
+2021-01-11 19:59:56.193  INFO 7852 --- [  restartedMain] b.c.e.s.ScrapingApiApplication           : No active profile set, falling back to default profiles: default
+2021-01-11 19:59:56.261  INFO 7852 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-01-11 19:59:56.262  INFO 7852 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-01-11 19:59:57.177  INFO 7852 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-01-11 19:59:57.193  INFO 7852 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 0 JPA repository interfaces.
+2021-01-11 19:59:57.832  INFO 7852 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-11 19:59:57.847  INFO 7852 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-11 19:59:57.847  INFO 7852 --- [  restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.41]
+2021-01-11 19:59:57.987  INFO 7852 --- [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-01-11 19:59:57.988  INFO 7852 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1725 ms
+2021-01-11 19:59:58.061  INFO 7852 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : POOL_h2 - Starting...
+2021-01-11 19:59:58.272  INFO 7852 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : POOL_h2 - Start completed.
+2021-01-11 19:59:58.279  INFO 7852 --- [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2'. Database available at 'jdbc:h2:mem:testdb'
+2021-01-11 19:59:58.421  INFO 7852 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-01-11 19:59:58.471  INFO 7852 --- [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.25.Final
+2021-01-11 19:59:58.628  INFO 7852 --- [  restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-01-11 19:59:58.764  INFO 7852 --- [  restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-01-11 19:59:59.055  INFO 7852 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-01-11 19:59:59.064  INFO 7852 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-01-11 19:59:59.100  INFO 7852 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2021-01-11 19:59:59.167  WARN 7852 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-01-11 19:59:59.330  INFO 7852 --- [  restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-11 19:59:59.624  INFO 7852 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2021-01-11 19:59:59.635  INFO 7852 --- [  restartedMain] b.c.e.s.ScrapingApiApplication           : Started ScrapingApiApplication in 3.921 seconds (JVM running for 5.554)
+
+
+
+
+
+
+
+
+
+
+
+
