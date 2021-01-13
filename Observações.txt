@@ -14,7 +14,7 @@ Exception in thread "main" java.lang.NullPointerException: Cannot invoke "org.js
 (ScrapingUtil.java:212): String nomeEquipe = elemento.select(SPAN).text();
 
 2: Na inicialização do Spring, não constou erro, porém o banco NÂO foi criar, pelo menos não mostrou na tela.
-- Rever aula 36 e 37
+- Rever aulas 35, 36 e 37.
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -52,7 +52,9 @@ Exception in thread "main" java.lang.NullPointerException: Cannot invoke "org.js
 
 
 
-
+3: Para consultar o swegger
+- Inicia a plicação e Run
+- No navegador coloca http://localhost:8080/swagger-iu.html
 
 
 

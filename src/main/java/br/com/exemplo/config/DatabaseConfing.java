@@ -9,10 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-
 @Configuration
 public class DatabaseConfing {
-	
+
 	@Value("${spring.datasource.driver-class-name}")
 	private String driverClassName;
 	
@@ -28,11 +27,11 @@ public class DatabaseConfing {
 	@Value("${spring.datasource.hikari.pool-name}")
 	private String poolName;
 	
-	@Value("${spring.datasource.hikari.minimum-idle}")
+	@Value("${spring.datasource.hikari.minimum-idle}")	
 	private Integer minimumIdle;
 	
 	@Value("${spring.datasource.hikari.maximum-pool-size}")
-	private Integer maximumPoolSize;
+	private Integer maximumPollSize;
 	
 	@Value("${spring.datasource.hikari.connection-timeout}")
 	private Long connectionTimeout;
@@ -46,25 +45,26 @@ public class DatabaseConfing {
 	
 	@Bean
 	public DataSource getDatasource() {
-		
 		HikariConfig config = new HikariConfig();
-		
 		config.setDriverClassName(driverClassName);
 		config.setJdbcUrl(url);
 		config.setUsername(username);
 		config.setPassword(password);
 		config.setPoolName(poolName);
 		config.setMinimumIdle(minimumIdle);
-		config.setMaximumPoolSize(maximumPoolSize);
+		config.setMaximumPoolSize(maximumPollSize);
 		config.setConnectionTimeout(connectionTimeout);
 		config.setIdleTimeout(idleTimeout);
 		config.setMaxLifetime(maxLifetime);
 		
-		
 		return new HikariDataSource(config);
-	
-		
 	}
 	
-
+	
+	
+	
+	
+	
+	
+	
 }
