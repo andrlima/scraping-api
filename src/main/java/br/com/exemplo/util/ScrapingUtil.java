@@ -50,12 +50,11 @@ public class ScrapingUtil {
 	// informa para o google qual a linguagem que estamos buscando, também é um parâmtro.
 	private static final String COMPLEMENTO_URL_GOOGLE = "&hl=pt-BR"; 
 	
-	public PartidaGoogleDTO obtendoInformacoesPartida(String url) {
-		
-		PartidaGoogleDTO partida = new PartidaGoogleDTO();
-		
+	public PartidaGoogleDTO obtendoInformacoesGoogle(String url) {
 		// Importado do org.jsoup.nodes
 		Document document = null;
+		
+		PartidaGoogleDTO partida = new PartidaGoogleDTO();
 		
 		// CHAMADA DE TODOS OS MÉTODOS
 		try {

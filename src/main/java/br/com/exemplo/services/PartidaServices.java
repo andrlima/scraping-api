@@ -1,12 +1,13 @@
 package br.com.exemplo.services;
 
-import javax.validation.Valid;
+import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.exemplo.dto.PartidaDTO;
+import br.com.exemplo.dto.PartidaGoogleDTO;
 import br.com.exemplo.dto.PartidaResponseDTO;
 import br.com.exemplo.entity.Partida;
 import br.com.exemplo.exceptions.NotFoundException;
@@ -68,6 +69,29 @@ public class PartidaServices {
 		salvarPartida(partida);
 		 
 		
+	}
+
+	public void atualizarPartida(Partida partida, PartidaGoogleDTO partidaGoogle) {
+		partida.setPlacarEquipeCasa(partidaGoogle.getPlacarEquipeCasa());
+		partida.setPlacarEquipeVisitante(partidaGoogle.getPlacarEquipeVisitante());
+		partida.setGolsEquipeCasa(partidaGoogle.getGolsEquipeCasa());
+		partida.setGolsEquipeVisitante(partidaGoogle.getGolsEquipeVisitante());
+		partida.setPlacarEstendidoEquipeCasa(partidaGoogle.getPlacarEquipeCasa());
+		partida.setPlacarEstendidoEquipeVisistante(partidaGoogle.getPlacarEstendidoEquipeVisitante());
+		partida.setTempoPartida(partidaGoogle.getTempoPartida());
+		
+		salvarPartida(partida);
+		
+	}
+
+	public List<Partida> ListarPartidaPeriodo() {
+
+		return partidaRepository.listarPartidasPeriodo();
+	}
+
+	public Integer buscarQuantidadePartidasPeriodo() {
+
+		return partidaRepository.buscarQuantidadePartidasPeriodo();
 	}
 	
 	

@@ -50,15 +50,19 @@ Exception in thread "main" java.lang.NullPointerException: Cannot invoke "org.js
 2021-01-11 19:59:59.624  INFO 7852 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
 2021-01-11 19:59:59.635  INFO 7852 --- [  restartedMain] b.c.e.s.ScrapingApiApplication           : Started ScrapingApiApplication in 3.921 seconds (JVM running for 5.554)
 
-
-
 3: Para consultar o swegger
 - Inicia a plicação e Run
 - No navegador coloca http://localhost:8080/swagger-iu.html
 
 4: Ver o banco criapo pelo hibernet h2
 - No navegador coloca http://localhost:8080/h2/login.jsp
+- usuário: sa
+- senha: 
 
+5: A classe ScrapingUtil é a classe que contém os métodos de raspagem da página do google
+
+6: Se der erro no PlacarEstendidoVisitante, é por causa do tipo dessa variável, pode está em algum lugar 
+delcarada como String e em ouro como Integer
 
 
 
