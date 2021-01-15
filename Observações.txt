@@ -64,6 +64,8 @@ Exception in thread "main" java.lang.NullPointerException: Cannot invoke "org.js
 6: Se der erro no PlacarEstendidoVisitante, é por causa do tipo dessa variável, pode está em algum lugar 
 delcarada como String e em ouro como Integer
 
+7: Estudar sobre o Spring para se interar melhor com os comandos
+
 
 
 
