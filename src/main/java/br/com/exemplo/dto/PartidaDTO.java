@@ -1,6 +1,7 @@
 package br.com.exemplo.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -22,10 +23,10 @@ public class PartidaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@NotBlank
-	private String nomeEquipe;
+	private String nomeEquipeCasa;
 	
 	@NotBlank
-	private String nomeEquipeVisiatante;
+	private String nomeEquipeVisitante;
 	
 	@NotBlank
 	private String localPartida;
@@ -33,7 +34,7 @@ public class PartidaDTO implements Serializable {
 	@NotNull
 	@ApiModelProperty(example = "dd/mm/yyyy hh:mm")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy hh:mm", timezone = "America/Sao_Paulo" )
-	private String dataHoraPartida;
+	private Date dataHoraPartida;
 	
 	
 }

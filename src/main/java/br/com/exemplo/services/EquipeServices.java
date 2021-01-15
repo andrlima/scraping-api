@@ -26,7 +26,7 @@ public class EquipeServices {
 	// BUSCAR POR ID
 	public Equipe buscarEquipeId(Long id) {
 		return equipeRepository.findById(id)
-				.orElseThrow(() -> new NotFoundException("Nunhma Equipe encontrdad coom o id informado: " + id));
+				.orElseThrow(() -> new NotFoundException("Nunhuma Equipe encontrada com o id informado: " + id));
 	}
 	
 	// BUSCAR POR NOME

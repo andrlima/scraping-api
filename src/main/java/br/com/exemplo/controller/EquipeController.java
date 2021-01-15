@@ -101,7 +101,6 @@ public class EquipeController {
 			@ApiResponse(code = 403, message = "Forbidden", response = StandardError.class),
 			@ApiResponse(code = 404, message = "Not found", response = StandardError.class),
 			@ApiResponse(code = 500, message = "Internal server error", response = StandardError.class),
-		
 	})
 	@PutMapping("/(id)")
 	public ResponseEntity<Void> alterarEquipe(@PathVariable("id") Long id, 
