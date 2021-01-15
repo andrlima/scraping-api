@@ -1,4 +1,4 @@
-package br.com.exemplo.entidades;
+package br.com.exemplo.entity;
 
 import java.io.Serializable;
 
@@ -34,7 +34,7 @@ public class Equipe implements Serializable {
 	private Long id;
 	
 	@Column(name = "nome_equipe")
-	private String nameEquipe;
+	private String nomeEquipe;
 	
 	@Column(name = "url_logo_equipe")
 	private String urlLogoEquipe;

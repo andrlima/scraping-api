@@ -1,4 +1,4 @@
-package br.com.exemplo.entidades;
+package br.com.exemplo.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -66,8 +66,8 @@ public class Partida implements Serializable{
 	@Column(name = "placar_estendido_equipe_casa")
 	private Integer placarEstendidoEquipeCasa;
 	
-	@Column(name = "placar_estendido_equipe_visitante")
-	private Integer placarEstendidoEquipeVisitante;
+	@Column(name = "placar_estendido_equipe_casa")
+	private Integer placarEstendidoEquipeVisistante;
 	
 	@ApiModelProperty(example = "dd/MM/yyyy HH:mm")
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm", timezone = "America/Sao_Paulo")
@@ -77,6 +77,10 @@ public class Partida implements Serializable{
 	
 	@Column(name = "local_partida")
 	private String localPartida;
+	
+	@Column(name = "tempo_partida")
+	private String tempoPartida;
+
 	
 	
 	
