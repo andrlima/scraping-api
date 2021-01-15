@@ -58,14 +58,17 @@ public class ScrapingUtil {
 		
 		// CHAMADA DE TODOS OS MÉTODOS
 		try {
+			LOGGER.info(url);
 			
+			// Conecta no site
 			document = Jsoup.connect(url).get();
 			
+			// Pegando o titulo da página.
 			String title = document.title();
-			LOGGER.info("Titulo da página: {}", title); // Pegando o titulo da página.
+			LOGGER.info("Titulo da página: {}", title); 
 						
 			StatusPartida statusPartida = obtendoStatusPartida(document);
-			partida.setStatusPartida(statusPartida.toString());
+			partida.setStatusPartida(statusPartida);
 			LOGGER.info("Estatus da partida: {} ", statusPartida);
 			
 			// Verificar se a partida ainda não iniciou, se iniciou, entra no if

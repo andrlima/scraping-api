@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import br.com.exemplo.dto.PartidaGoogleDTO;
 import br.com.exemplo.entity.Partida;
 import br.com.exemplo.util.ScrapingUtil;
+import br.com.exemplo.util.StatusPartida;
 
 @Service
 public class ScrapingServices {
@@ -34,7 +35,10 @@ public class ScrapingServices {
 				
 				PartidaGoogleDTO partidaGoogle = scrapingUtil.obtendoInformacoesGoogle(urlPartida); 
 				
-				partidaService.atualizarPartida(partida, partidaGoogle);
+				if(partidaGoogle.getStatusPartida() != StatusPartida.PARTIDA_NAO_INICIADA) {
+					partidaService.atualizarPartida(partida, partidaGoogle);
+				
+				}
 				
 			});
 			

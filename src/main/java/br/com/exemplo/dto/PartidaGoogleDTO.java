@@ -2,6 +2,7 @@ package br.com.exemplo.dto;
 
 import java.io.Serializable;
 
+import br.com.exemplo.util.StatusPartida;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class PartidaGoogleDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String statusPartida;
+	private StatusPartida statusPartida;
 	private String tempoPartida;
 	
 	// Informações da equipe da casa 
